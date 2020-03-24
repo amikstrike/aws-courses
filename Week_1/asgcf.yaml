@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: "Creates ASG with Specified Min, Max, and desired capacity in each specified subnet"
+Description: "Creates ASG with Specified Min, Max, and desired capacity"
 Resources:
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
