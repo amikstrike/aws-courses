@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Creates ASG with Specified Min, Max, and desired capacity in each specified subnet"
+Resources:
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: asg2
+      Cooldown: 120
+      DesiredCapacity: 2
+      LaunchConfigurationName:       
+        Ref: "LaunchConfig"
+      MaxSize: 2
+      MinSize: 2       
+      VPCZoneIdentifier: ["subnet-8b09cad6", "subnet-b39464cb", "subnet-a98391e2", "subnet-8fe398a4"]
+  LaunchConfig: 
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties: 
+      KeyName: "awssshkey"
+      ImageId: "ami-0ce21b51cb31a48b8"
+      SecurityGroups: 
+        - Ref: "InstanceSecurityGroup"
+      InstanceType:  t2.micro
+      LaunchConfigurationName: LaunchConfig  
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh
+      VpcId: "vpc-894e29f1"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
